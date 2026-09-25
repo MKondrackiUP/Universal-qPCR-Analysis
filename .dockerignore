@@ -1,0 +1,5 @@
+.git
+.gitignore
+*.zip
+SHA256SUMS.txt
+documentation

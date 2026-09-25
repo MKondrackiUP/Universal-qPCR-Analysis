@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uniwersalna analiza qPCR</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow" data-i18n="header.eyebrow">Lokalne narzędzie badawcze</p>
+      <h1 data-i18n="header.title">Uniwersalna analiza qPCR</h1>
+      <p class="lede" data-i18n="header.lede">Porównaj sparowane pomiary qPCR lub RT-qPCR w punktach T0–T4 i otrzymaj pełny raport dla każdego preparatu.</p>
+    </div>
+    <div class="header-tools">
+      <label class="language-control"><span data-i18n="language.label">Język</span>
+        <select id="language-select" aria-label="Język"><option value="pl">Polski</option><option value="en">English</option></select>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <aside class="boundary" aria-label="Granica interpretacji" data-i18n-aria-label="boundary.label">
+      <strong data-i18n="boundary.label">Granica interpretacji:</strong>
+      <span data-i18n="boundary.text">wyniki opisują analizowane dane i zgodność z zadeklarowanym celem; nie dowodzą przyczynowości, skuteczności, rozpoznania ani walidacji klinicznej.</span>
+    </aside>
+
+    <section class="project-toolbar" aria-label="Projekt analizy" data-i18n-aria-label="project.aria">
+      <div class="project-actions">
+        <button id="new-project-button" type="button" class="text-button" data-i18n="project.new">Nowa analiza</button>
+        <button id="open-project-button" type="button" class="text-button" data-i18n="project.open">Otwórz projekt</button>
+        <button id="save-project-button" type="button" class="text-button" disabled data-i18n="project.save">Zapisz projekt</button>
+        <input id="open-project-file" type="file" accept=".qpcrproj,application/json" hidden>
+      </div>
+      <div class="demo-actions">
+        <span data-i18n="demo.label">Dane demonstracyjne:</span>
+        <button id="demo-basic-button" type="button" class="demo-button" data-i18n="demo.basic">qPCR — 2 min</button>
+        <button id="demo-tier-button" type="button" class="demo-button" data-i18n="demo.tier">qPCR + Tier</button>
+      </div>
+      <details class="citation-policy">
+        <summary data-i18n="citation.summary">Licencja i cytowanie</summary>
+        <p data-i18n="citation.policy">Kod jest udostępniany na licencji Universal qPCR Analysis Free Use and Scientific Citation License 1.0. Wykorzystując wyniki w publikacji, prezentacji lub raporcie naukowym, należy zacytować aplikację i jej wersję.</p>
+        <code id="citation-text">Kondracki, M. (2026). Universal qPCR Analysis (Version 0.22.0) [Computer software].</code>
+        <div class="citation-links"><a href="./CITATION.cff" data-i18n="citation.cff">CITATION.cff</a><a href="./LICENSE.txt" data-i18n="citation.license">Universal qPCR Analysis Free Use and Scientific Citation License 1.0</a><button id="copy-citation-button" type="button" class="text-button" data-i18n="citation.copy">Kopiuj cytowanie</button></div>
+      </details>
+    </section>
+
+    <section class="actions single-action" aria-label="Uruchom analizę" data-i18n-aria-label="actions.aria">
+      <article class="action-card">
+        <p class="step" data-i18n="analysis.step">Analiza</p>
+        <h2 data-i18n="analysis.title">Wczytaj dane qPCR</h2>
+        <p data-i18n="analysis.text">Pliki XLSX, CSV lub TSV dla T0 i T1 są analizowane lokalnie w tej karcie. Opcjonalnie dodaj ciągłe punkty T2–T4.</p>
+        <aside id="local-privacy" class="local-privacy"><span class="privacy-icon" aria-hidden="true">✓</span><span><strong data-i18n="privacy.localTitle">Tryb lokalny T0–T4</strong><small data-i18n="privacy.localText">Wszystkie skoroszyty, kontrasty, trajektorie i raporty pozostają w pamięci przeglądarki — bez wysyłania i bez zapisu przebiegu na serwerze.</small></span></aside>
+        <div class="generic-assay-fields">
+          <label><span data-i18n="assay.technology">Technologia</span><select id="assay-technology"><option value="qpcr">qPCR</option><option value="rt_qpcr">RT-qPCR</option></select></label>
+          <label><span data-i18n="assay.category">Kategoria celu</span><select id="target-category"><option value="virus" data-i18n="category.virus">Wirus</option><option value="bacterium" data-i18n="category.bacterium">Bakteria</option><option value="fungus" data-i18n="category.fungus">Grzyb</option><option value="parasite" data-i18n="category.parasite">Pasożyt</option><option value="host_gene" data-i18n="category.hostGene">Gen gospodarza</option><option value="other" data-i18n="category.other">Inny</option></select></label>
+          <label><span data-i18n="assay.targetName">Nazwa celu</span><input id="target-name" type="text" maxlength="120" required placeholder="np. gen M wirusa grypy A" data-i18n-placeholder="assay.targetPlaceholder"></label>
+          <label><span data-i18n="assay.goal">Oczekiwany kierunek</span><select id="analysis-goal"><option value="decrease" data-i18n="goal.decrease">Spadek</option><option value="increase" data-i18n="goal.increase">Wzrost</option><option value="neutral" data-i18n="goal.neutral">Bez preferowanego kierunku</option></select></label>
+          <label><span data-i18n="assay.hostSpecies">Gatunek gospodarza (opcjonalnie)</span><input id="host-species" type="text" maxlength="120" placeholder="np. Homo sapiens" data-i18n-placeholder="assay.hostPlaceholder"></label>
+        </div>
+        <aside class="input-format-control"><span><strong data-i18n="input.title">Uniwersalny format wejścia</strong><small data-i18n="input.description">Aplikacja rozpoznaje polskie i angielskie nagłówki XLSX/CSV/TSV. Qty lub Quantity pozostaje wymagane i nie jest wyliczane z Ct/Cq.</small></span><a class="template-link" href="./qpcr-input-template.csv" download data-i18n="input.downloadTemplate">Pobierz szablon danych CSV</a><a class="template-link" href="./examples/synthetic-qpcr-validation/README_PL.md" target="_blank" rel="noopener" data-i18n="input.validationExamples">Otwórz syntetyczne zestawy testowe</a></aside>
+        <fieldset class="tier-module-control">
+          <legend data-i18n="module.title">Moduły analizy</legend>
+          <label class="module-choice primary"><input type="checkbox" checked disabled><span><strong data-i18n="module.qpcrTitle">Analiza qPCR</strong><small data-i18n="module.qpcrText">Zawsze aktywna: import, testy, FDR, efekty, wykresy i audyt danych.</small></span></label>
+          <label class="module-choice"><input id="tier-enabled" type="checkbox" checked><span><strong data-i18n="module.tierTitle">Priorytetyzacja Tier</strong><small data-i18n="module.tierText">Domyślnie aktywny, oddzielny moduł wykorzystujący profil dowodowy. Można go wyłączyć; nie zmienia statystycznej oceny qPCR.</small></span></label>
+        </fieldset>
+        <aside id="tier-module-options" class="evidence-profile-control" hidden>
+          <div><strong data-i18n="profile.title">Lokalny profil dowodów dla Tierów</strong><small data-i18n="profile.description">Opcjonalny CSV pozwala oceniać dowolne nazwy preparatów. Zastępuje cały profil wbudowany; brakujące preparaty otrzymają Tier 4 z jawną informacją o braku profilu.</small></div>
+          <label><span data-i18n="profile.file">Profil CSV (opcjonalnie)</span><input id="candidate-evidence-profile" type="file" accept=".csv,text/csv"></label>
+          <a class="template-link" href="./candidate-evidence-template.csv" download data-i18n="profile.downloadTemplate">Pobierz szablon CSV</a>
+          <label><span data-i18n="screening.file">Zamrożona tabela porównawcza (opcjonalnie)</span><input id="screening-reference-profile" type="file" accept=".csv,.tsv,text/csv"></label>
+          <a class="template-link" href="./screening-reference-template.csv" download data-i18n="screening.downloadTemplate">Pobierz szablon tabeli porównawczej</a>
+          <small class="field-help" data-i18n="screening.description">Opcjonalny CSV z kolumnami preparation, reference_qualified i reference_group. Pozwala porównać wynik z decyzją podjętą wcześniej, poza aplikacją. Bez tego pliku porównanie wykonuje się tylko dla profilu wbudowanego.</small>
+          <details class="evidence-profile-guide"><summary data-i18n="profile.guideTitle">Skala ocen i dopasowanie nazw</summary><ul><li data-i18n="profile.guideDefinition">Zdefiniowanie 0–2: od preparatu niezdefiniowanego do jednoznacznie określonej substancji lub interwencji.</li><li data-i18n="profile.guideContext">Dowody kontekstowe 0–2: brak, pośrednie albo bezpośrednie dowody dla badanego kontekstu.</li><li data-i18n="profile.guideMechanism">Dopasowanie mechanizmu −2…1: sprzeczne, słabe, nieznane/neutralne albo wspierające cel.</li><li data-i18n="profile.guideTranscriptomics">Gotowość transkryptomiczna 0–2: brak możliwości mapowania, możliwość ograniczona albo bezpośrednia.</li><li data-i18n="profile.guideRisk">Ryzyko 0–3: od niskiego do bardzo wysokiego; nieznanego ryzyka nie należy automatycznie wpisywać jako 0.</li></ul><p data-i18n="profile.guideMatch">source_preparation musi dokładnie odpowiadać nazwie w XLSX. Opisowe etykiety dokumentują podstawę punktacji; aplikacja nie wymyśla ani nie uzupełnia brakujących ocen.</p></details>
+        </aside>
+        <p class="field-help" data-i18n="analysis.rules">Ocena główna wykorzystuje zmianę Qty, dokładny test Wilcoxona dla małych prób i korektę FDR Benjamini–Hochberga. Ct pozostaje kontrolą pomocniczą.</p>
+        <label class="time-unit-control"><span data-i18n="time.unit">Jednostka czasu</span><select id="time-unit"><option value="relative_unit" data-i18n="time.relative">Jednostka względna</option><option value="day" data-i18n="time.day">Dzień</option><option value="hour" data-i18n="time.hour">Godzina</option><option value="week" data-i18n="time.week">Tydzień</option></select></label>
+        <div id="timepoint-inputs" class="timepoint-inputs">
+          <div class="timepoint-row" data-term="T0"><strong>T0</strong><label><span data-i18n="time.workbook">Plik danych</span><input data-role="workbook" type="file" accept=".xlsx,.csv,.tsv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,text/tab-separated-values"><small data-role="file-status" class="file-selection-status" data-i18n="time.noFile">Nie wybrano pliku</small></label><label><span data-i18n="time.value">Czas</span><input data-role="time" type="number" step="any" value="0"></label><span class="required-tag" data-i18n="time.required">wymagany</span></div>
+          <div class="timepoint-row" data-term="T1"><strong>T1</strong><label><span data-i18n="time.workbook">Plik danych</span><input data-role="workbook" type="file" accept=".xlsx,.csv,.tsv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,text/tab-separated-values"><small data-role="file-status" class="file-selection-status" data-i18n="time.noFile">Nie wybrano pliku</small></label><label><span data-i18n="time.value">Czas</span><input data-role="time" type="number" step="any" value="1"></label><span class="required-tag" data-i18n="time.required">wymagany</span></div>
+        </div>
+        <div id="input-readiness" class="input-readiness" role="status" aria-live="polite"></div>
+        <button id="add-timepoint-button" type="button" class="text-button">+ Dodaj T2</button>
+        <button id="analyze-button" type="button" class="secondary" data-i18n="analysis.button">Analizuj pliki</button>
+      </article>
+    </section>
+
+    <section id="run-panel" class="run-panel" aria-live="polite">
+      <div class="run-heading"><div><p class="eyebrow" data-i18n="run.current">Bieżący przebieg</p><h2 id="run-title" data-i18n="run.readyTitle">Gotowy do analizy</h2></div><span id="run-status" class="status">ready</span></div>
+      <p id="run-message" class="run-message" data-i18n="run.ready">Wybierz pliki T0 i T1, aby rozpocząć.</p>
+      <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+    </section>
+
+    <section id="quick-guide" class="quick-guide" hidden aria-label="Krótki przewodnik" data-i18n-aria-label="guide.aria">
+      <div><p class="eyebrow" data-i18n="guide.eyebrow">Demonstracja</p><h2 data-i18n="guide.title">Analiza w pięciu krokach</h2></div>
+      <ol>
+        <li><a href="#input-schema-section" data-i18n="guide.step1">Sprawdź rozpoznane kolumny i liczbę rekordów.</a></li>
+        <li><a href="#integrity-section" data-i18n="guide.step2">Przeczytaj ostrzeżenia jakości i integralności.</a></li>
+        <li><a href="#qpcr-visualization-section" data-i18n="guide.step3">Oceń wielkość efektu oraz q po korekcie FDR.</a></li>
+        <li id="guide-tier-step"><a href="#tier-ranking-section" data-i18n="guide.step4">Jeżeli moduł jest aktywny, otwórz ranking Tier i jego uzasadnienie.</a></li>
+        <li><a href="#report-section" data-i18n="guide.step5">Wygeneruj DOCX i zapisz projekt .qpcrproj.</a></li>
+      </ol>
+      <button id="close-guide-button" type="button" class="text-button" data-i18n="guide.close">Zamknij przewodnik</button>
+    </section>
+
+    <section id="results" hidden>
+      <div id="result-banner" class="match-banner"></div>
+      <div id="summary-cards" class="summary-grid"></div>
+
+      <section id="input-schema-section" class="result-section input-schema-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="input.eyebrow">Kontrola importu</p><h2 data-i18n="input.mappingTitle">Rozpoznany format i mapowanie kolumn</h2></div><p data-i18n="input.mappingDescription">Każdy plik pokazuje nagłówki użyte przez analizę, wartości domyślne i kolumny zignorowane.</p></div>
+        <div id="input-schema-summary" class="validation-summary"></div>
+        <div id="input-schema-files" class="input-schema-files"></div>
+      </section>
+
+      <section id="effect-scaling-section" class="result-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="scaling.eyebrow">Zależność od zestawu</p><h2 data-i18n="scaling.title">Przesunięcie Qty i skala efektu</h2></div><p data-i18n="scaling.description">Obie wielkości są wyprowadzane z całego przesłanego zestawu preparatów, dlatego należy zapisać je razem z wynikiem.</p></div>
+        <div id="effect-scaling-summary" class="validation-summary"></div>
+        <div id="effect-scaling-note" class="result-warning-list" role="note" hidden></div>
+      </section>
+
+      <section class="result-section decision-audit-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="decision.eyebrow">Jawna reguła statystyczna</p><h2 data-i18n="decision.title">Audyt statystycznej decyzji qPCR</h2></div><p data-i18n="decision.description">Tabela pokazuje kompletność, kierunek, zgodność z celem i FDR. Jest to ocena statystyczna oddzielna od zintegrowanego Tieru.</p></div>
+        <div id="decision-audit-summary" class="validation-summary"></div>
+        <div id="decision-audit-rows" class="decision-audit-table"></div>
+      </section>
+
+      <section id="tier-ranking-section" class="result-section ranking-section" data-tier-section>
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="ranking.eyebrow">Zintegrowana macierz decyzyjna</p><h2 data-i18n="ranking.title">Ranking preparatów</h2></div><p data-i18n="ranking.description">Położenie słupka przedstawia wersjonowany wynik zintegrowany; Tier zachowuje wcześniejsze progi i kolejność reguł oceny.</p></div>
+        <div id="ranking" class="ranking" role="table" data-i18n-aria-label="ranking.aria"></div>
+      </section>
+
+      <section class="result-section screening-reconstruction-section" data-tier-section>
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="validation.eyebrow">Odtworzenie reguły przesiewowej</p><h2 data-i18n="validation.title">Tabela walidacyjna preparatów</h2></div><p id="validation-description" data-i18n="validation.description">Referencja pochodzi z zamrożonego profilu porównawczego. Średnia jest liczona wyłącznie z kompletnych par; odtworzenie wymaga sześciu par, jednego kierunku i zmiany Qty ściśle powyżej 20%.</p></div>
+        <div id="screening-reconstruction" class="validation-table" role="table" data-i18n-aria-label="validation.aria"></div>
+      </section>
+
+      <section id="qpcr-visualization-section" class="result-section visualization-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="visuals.eyebrow">Widok porównawczy</p><h2 data-i18n="visuals.title">Wykresy efektu i siły dowodu</h2></div><p data-i18n="visuals.description">Paski pokazują wielkość zmiany Qty oraz q po korekcie FDR dla każdego preparatu.</p></div>
+        <div class="chart-grid">
+          <article class="chart-card"><div class="chart-card-heading"><div><h3 data-i18n="visuals.effectTitle">Zmiana Qty: T1 względem T0</h3><p data-i18n="visuals.effectHelp">Oś środkowa oznacza brak zmiany. Kolor pokazuje zgodność wyniku z celem analizy.</p></div><span class="chart-unit">log10</span></div><div id="effect-chart" class="effect-chart"></div></article>
+          <article class="chart-card"><div class="chart-card-heading"><div><h3 data-i18n="visuals.evidenceTitle">Siła dowodu statystycznego</h3><p data-i18n="visuals.evidenceHelp">Im dłuższy pasek, tym mniejsze q. Linia przerywana oznacza próg q = 0,05.</p></div><span class="chart-unit">−log10(q)</span></div><div id="evidence-chart" class="evidence-chart"></div></article>
+        </div>
+        <div class="chart-legend"><span><i class="legend-swatch supportive"></i><span data-i18n="visuals.supportive">zgodne z celem</span></span><span><i class="legend-swatch contradictory"></i><span data-i18n="visuals.contradictory">sprzeczne z celem</span></span><span><i class="legend-swatch descriptive"></i><span data-i18n="visuals.descriptive">opisowe lub niepewne</span></span></div>
+      </section>
+
+      <section class="result-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="results.eyebrow">Ocena celu</p><h2 data-i18n="results.title">Pełna tabela wyników</h2></div><p data-i18n="results.description">Każdy wiersz pokazuje kompletność, efekt Qty, oba testy statystyczne, kontrolę Ct i jawną kategorię oceny.</p></div>
+        <div id="assay-summary" class="validation-summary"></div>
+        <div id="candidate-results" class="result-table-wrap" data-i18n-aria-label="results.aria"></div>
+      </section>
+
+      <section class="result-section analytical-figures-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="figures.eyebrow">Wykresy obliczeniowe</p><h2 data-i18n="figures.title">Pełne wykresy Qty i Ct</h2></div><p data-i18n="figures.description">Wykresy SVG tworzone z par Qty i Ct — można je otworzyć w pełnym rozmiarze i pobrać.</p></div>
+        <div id="analytical-figures" class="analytical-figures"></div>
+      </section>
+
+      <section id="report-section" class="result-section report-section">
+        <div class="section-heading report-heading"><div><p class="eyebrow" data-i18n="report.eyebrow">Metoda i interpretacja</p><h2 data-i18n="report.title">Szczegółowy raport</h2><p data-i18n="report.description">Raport opisuje każdy test, reguły oceny oraz osobny wynik każdego preparatu.</p></div><button id="generate-report-button" type="button" data-i18n="report.generate">Generuj raport DOCX</button></div>
+        <p id="report-status" class="report-status" data-i18n="report.ready">Raport jest gotowy do wygenerowania.</p>
+        <div id="report-view" hidden><div id="report-downloads" class="report-downloads"></div><div id="report-summary" class="report-summary"></div><div id="report-presentation" class="report-presentation"></div><h3 data-i18n="report.methods">Testy i zasady oceniania</h3><div id="report-methods" class="report-mechanisms"></div><h3 data-i18n="report.preparations">Raporty preparatów</h3><div id="report-candidates" class="report-candidates"></div></div>
+      </section>
+
+      <section class="result-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="longitudinal.eyebrow">T0–Tn</p><h2 data-i18n="longitudinal.title">Kontrasty i trajektorie</h2></div><p data-i18n="longitudinal.description">Porównania względem T0 oraz między sąsiednimi punktami czasu.</p></div>
+        <div id="longitudinal-summary" class="validation-summary"></div><div id="longitudinal-content"></div>
+      </section>
+
+      <section id="integrity-section" class="result-section integrity-section">
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="integrity.eyebrow">Pochodzenie danych</p><h2 data-i18n="integrity.title">Audyt integralności</h2></div><p data-i18n="integrity.description">Osobny wykaz dokładnych powtórzeń Ct/Qty między preparatami i punktami czasu wraz z wymaganą czynnością kontrolną.</p></div>
+        <div id="integrity-summary" class="validation-summary"></div>
+        <div id="integrity-content" class="integrity-content"></div>
+      </section>
+
+      <section class="result-section"><p class="eyebrow" data-i18n="artifacts.eyebrow">Pliki wynikowe</p><h2 data-i18n="artifacts.title">Artefakty</h2><div id="artifacts" class="artifact-list"></div></section>
+    </section>
+    <section id="error-panel" class="error-panel" hidden role="alert" aria-live="assertive" tabindex="-1"></section>
+  </main>
+  <footer><span data-i18n="footer.specification">Specyfikacja analizy 2.0.0 · silnik 1.0.0 · podłużna 3.0.0 · aplikacja 0.22.0</span><span data-i18n="footer.scope">Lokalne, niekliniczne narzędzie badawcze</span></footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

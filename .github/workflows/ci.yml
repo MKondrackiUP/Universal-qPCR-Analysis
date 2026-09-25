@@ -1,0 +1,91 @@
+name: Continuous integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # 20 is the minimum declared in package.json engines; 22 is the current
+        # development baseline. Both must pass.
+        node-version: [20, 22]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Verify application and scientific oracle
+        run: npm run verify
+
+      - name: Verify repository checksums
+        run: npm run checksums:verify
+
+      - name: Verify the release end to end
+        run: npm run verify:release
+
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build deployment container
+        run: docker build --tag universal-qpcr-analysis:ci .
+
+      - name: Record the base image digest
+        run: |
+          docker image inspect universal-qpcr-analysis:ci \
+            --format 'built from: {{ index .Config.Labels "org.opencontainers.image.base.name" }}' || true
+          docker image ls --digests | head -5
+
+      - name: Start the container
+        run: |
+          docker run --detach --name qpcr-ci \
+            --read-only --tmpfs /tmp:size=16m,mode=1777 \
+            --cap-drop ALL --security-opt no-new-privileges:true \
+            --publish 8080:8080 universal-qpcr-analysis:ci
+
+      - name: Wait for the health endpoint
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:8080/healthz > /tmp/healthz.json; then
+              echo "healthy after ${attempt} attempt(s)"
+              cat /tmp/healthz.json
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "the container never became healthy"
+          docker logs qpcr-ci
+          exit 1
+
+      - name: Check that the reported version matches package.json
+        run: |
+          expected=$(node -p "require('./package.json').version")
+          reported=$(node -p "JSON.parse(require('fs').readFileSync('/tmp/healthz.json','utf8')).version")
+          echo "package.json=${expected} healthz=${reported}"
+          test "${expected}" = "${reported}"
+
+      - name: Check that the application is served
+        run: |
+          curl --silent --fail http://127.0.0.1:8080/ | grep -q "Universal qPCR" \
+            || curl --silent --fail http://127.0.0.1:8080/ | grep -q "qPCR"
+
+      - name: Stop the container
+        if: always()
+        run: docker rm --force qpcr-ci || true

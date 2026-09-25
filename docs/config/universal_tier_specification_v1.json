@@ -1,0 +1,63 @@
+{
+  "specification_version": "1.0.0",
+  "profile_id": "synthetic-example-evidence-profile-v1",
+  "locked_at": "2026-07-28",
+  "scope": "versioned_integrated_preparation_prioritization",
+  "qpcr": {
+    "effect_component_definition": "goal-oriented primary log10 Qty effect divided by the sample standard deviation of preparation medians",
+    "effect_component_min": -2.0,
+    "effect_component_max": 2.0,
+    "consistency_metric": "fraction of complete Qty pairs matching the observed primary direction",
+    "reliability_floor": 0.5,
+    "ct_contribution": 0.0
+  },
+  "integrated_model": {
+    "formula": "qpcr_signal + defined_compound + context_specific_evidence + mechanistic_fit + transcriptomic_readiness - safety_risk",
+    "weights": {
+      "qpcr_signal": 1.0,
+      "defined_compound": 1.0,
+      "context_specific_evidence": 1.0,
+      "mechanistic_fit": 1.0,
+      "transcriptomic_readiness": 1.0,
+      "safety_risk": 1.0
+    },
+    "ranges": {
+      "defined_compound": [
+        0,
+        2
+      ],
+      "context_specific_evidence": [
+        0,
+        2
+      ],
+      "mechanistic_fit": [
+        -2,
+        1
+      ],
+      "transcriptomic_readiness": [
+        0,
+        2
+      ],
+      "safety_risk": [
+        0,
+        3
+      ]
+    }
+  },
+  "tier_rules": {
+    "tier1_min_score": 4.0,
+    "tier2_min_score": 2.5,
+    "tier3_min_score": 2.5,
+    "tier1_requires_goal_aligned_qpcr": true,
+    "tier1_min_defined_compound_score": 2,
+    "tier1_min_mechanistic_fit_score": 1,
+    "goal_opposed_qpcr_forces_tier5": true,
+    "undefined_or_not_transcriptomic_ready_forces_tier4": true,
+    "negative_mechanistic_fit_forces_exploratory_tier3": true,
+    "zero_mechanistic_and_context_support_forces_tier3": true,
+    "missing_evidence_profile_forces_tier4": true
+  },
+  "interpretation": "Tier is a versioned prioritization category produced by the complete integrated evidence profile. It is not a clinical or efficacy classification. The statistical qPCR assessment remains a separate result.",
+  "profile_status": "synthetic_example_only",
+  "profile_note": "The bundled evidence profile is a synthetic example that demonstrates the score ranges and the Tier rules. It carries no pharmacological meaning and must be replaced with a study-specific profile before Tier is interpreted. Preparations absent from the active profile fall to Tier 4 under missing_evidence_profile_forces_tier4."
+}

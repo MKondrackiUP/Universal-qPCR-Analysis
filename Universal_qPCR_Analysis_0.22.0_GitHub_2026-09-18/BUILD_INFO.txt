@@ -1,0 +1,10 @@
+﻿Product: Universal qPCR Analysis Web
+Version: 0.22.0
+Distribution: static website + GitHub repository + Docker/Nginx
+Runtime: browser memory only
+Server-side input storage: none
+Built at (UTC): 2026-09-01T10:05:00Z
+Scientific status: research tool; not a clinical or diagnostic system
+
+Packaging revision: 2026-09-18
+Custom scientific-citation licence; documentation and metadata updated.

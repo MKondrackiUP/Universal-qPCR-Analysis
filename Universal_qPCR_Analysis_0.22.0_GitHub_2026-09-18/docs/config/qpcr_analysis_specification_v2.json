@@ -1,0 +1,74 @@
+{
+  "specification_version": "2.0.0",
+  "locked_at": "2026-07-24",
+  "scope": "universal_paired_qpcr",
+  "analysis_population": {
+    "unit": "preparation_sample_pair",
+    "pairing_keys": ["preparation", "sex", "sample_name"],
+    "required_timepoints": ["T0", "T1"],
+    "optional_timepoints": ["T2", "T3", "T4"]
+  },
+  "within_timepoint_duplicates": {
+    "keys": ["preparation", "sex", "sample_name", "term"],
+    "rule": "arithmetic_mean_of_finite_values_and_audit_count",
+    "fail_automatically": false
+  },
+  "qpcr": {
+    "primary_endpoint": "log10_qty_ratio",
+    "primary_endpoint_definition": "log10((Qty_T1 + offset) / (Qty_T0 + offset))",
+    "qty_offset_rule": "half_minimum_positive_qty_across_all_supplied_timepoints",
+    "fallback_qty_offset": 0.001,
+    "minimum_complete_pairs_for_direction": 3,
+    "missing_rule": "complete_pair_analysis_without_imputation",
+    "decreased_rule": "median_log10_qty_ratio_below_zero",
+    "increased_rule": "median_log10_qty_ratio_above_zero",
+    "no_change_rule": "median_log10_qty_ratio_equal_zero",
+    "effect_scaling": "negative_median_log10_qty_ratio_divided_by_sample_sd_of_preparation_medians",
+    "effect_component_min": -2.0,
+    "effect_component_max": 2.0,
+    "consistency_metric": "fraction_of_complete_qty_pairs_matching_observed_primary_direction",
+    "ct_role": "auxiliary_directional_concordance_quality_control",
+    "ct_changes_primary_assessment": false
+  },
+  "statistical_tests": {
+    "signed_rank": {
+      "name": "Wilcoxon signed-rank test",
+      "null_hypothesis": "paired_difference_distribution_is_centered_at_zero",
+      "alternative": "two_sided",
+      "zero_differences": "excluded",
+      "ties": "average_ranks",
+      "exact_sign_permutation_max_nonzero_pairs": 20,
+      "large_sample_method": "normal_approximation_with_tie_correction_and_continuity_correction",
+      "minimum_nonzero_pairs": 3
+    },
+    "multiplicity": {
+      "method": "Benjamini-Hochberg",
+      "family": "all_preparations_within_each_endpoint_and_contrast",
+      "alpha": 0.05,
+      "decision_uses": "adjusted_q_value"
+    }
+  },
+  "assessment_rules": {
+    "insufficient_data": "complete_qty_pairs_below_3_or_primary_effect_unavailable",
+    "confirmed_supportive": "goal_is_directional_and_observed_direction_matches_goal_and_qty_q_below_0.05",
+    "supportive_signal": "goal_is_directional_and_observed_direction_matches_goal_and_qty_q_at_least_0.05",
+    "confirmed_contradictory": "goal_is_directional_and_observed_direction_opposes_goal_and_qty_q_below_0.05",
+    "contradictory_signal": "goal_is_directional_and_observed_direction_opposes_goal_and_qty_q_at_least_0.05",
+    "no_detected_change": "primary_effect_equals_zero",
+    "neutral_goal": "descriptive_direction_only_without_supportive_or_contradictory_label"
+  },
+  "reporting": {
+    "required_per_preparation": [
+      "data_completeness",
+      "quantity_effect",
+      "quantity_signed_rank_test",
+      "ct_quality_control",
+      "ct_signed_rank_test",
+      "direction_consistency",
+      "data_integrity",
+      "overall_assessment"
+    ],
+    "unavailable_result_requires_reason": true,
+    "languages": ["pl", "en"]
+  }
+}

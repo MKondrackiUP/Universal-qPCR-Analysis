@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "fixture_version": "2026-08-16",
+  "synthetic_data": true,
+  "biological_interpretation_allowed": false,
+  "analysis_goal": "decrease",
+  "tier_enabled": false,
+  "numeric_tolerance": 1e-9,
+  "oracle": {
+    "effect": "median of log10((Qty_T1 + offset)/(Qty_T0 + offset))",
+    "offset": "half of the minimum positive Qty in T0 and T1",
+    "wilcoxon": "two-sided exact sign permutation with zero differences excluded and average ranks for ties",
+    "fdr": "Benjamini-Hochberg across preparations within the Qty T1-vs-T0 family"
+  },
+  "datasets": [
+    {
+      "id": "01_clear_directions",
+      "purpose": "Unambiguous six-pair decrease and increase controls.",
+      "qty_offset": 25,
+      "expected_candidates": [
+        {
+          "preparation": "Clear decrease",
+          "complete_pairs": 6,
+          "nonzero_pairs": 6,
+          "decreased_pairs": 6,
+          "increased_pairs": 0,
+          "median_log10_ratio": -0.38071017229015236,
+          "observed_change": "decreased",
+          "goal_alignment": "supportive",
+          "w": 0,
+          "p": 0.03125,
+          "q": 0.03125,
+          "assessment": "confirmed_supportive"
+        },
+        {
+          "preparation": "Clear increase",
+          "complete_pairs": 6,
+          "nonzero_pairs": 6,
+          "decreased_pairs": 0,
+          "increased_pairs": 6,
+          "median_log10_ratio": 0.23110232280993775,
+          "observed_change": "increased",
+          "goal_alignment": "contradictory",
+          "w": 0,
+          "p": 0.03125,
+          "q": 0.03125,
+          "assessment": "confirmed_contradictory"
+        }
+      ]
+    },
+    {
+      "id": "02_edge_cases",
+      "purpose": "Zero differences, balanced mixed directions and fewer than three complete pairs.",
+      "qty_offset": 50,
+      "expected_candidates": [
+        {
+          "preparation": "No change",
+          "complete_pairs": 6,
+          "nonzero_pairs": 0,
+          "decreased_pairs": 0,
+          "increased_pairs": 0,
+          "median_log10_ratio": 0,
+          "observed_change": "no_change",
+          "goal_alignment": "uncertain",
+          "w": null,
+          "p": null,
+          "q": null,
+          "assessment": "no_detected_change"
+        },
+        {
+          "preparation": "Balanced mixed",
+          "complete_pairs": 6,
+          "nonzero_pairs": 6,
+          "decreased_pairs": 3,
+          "increased_pairs": 3,
+          "median_log10_ratio": -0.05,
+          "observed_change": "decreased",
+          "goal_alignment": "supportive",
+          "display_alignment": "uncertain",
+          "w": 10,
+          "p": 1,
+          "q": 1,
+          "assessment": "supportive_signal",
+          "display_assessment": "mixed direction — no consistent signal"
+        },
+        {
+          "preparation": "Insufficient pairs",
+          "complete_pairs": 2,
+          "nonzero_pairs": 2,
+          "decreased_pairs": 2,
+          "increased_pairs": 0,
+          "median_log10_ratio": -0.277480006445889,
+          "observed_change": "decreased",
+          "goal_alignment": "supportive",
+          "w": null,
+          "p": null,
+          "q": null,
+          "assessment": "insufficient_data"
+        }
+      ]
+    },
+    {
+      "id": "03_fdr_panel",
+      "purpose": "Four-test family with analytically known exact p-values and Benjamini-Hochberg q-values.",
+      "qty_offset": 50,
+      "expected_candidates": [
+        {
+          "preparation": "FDR strong",
+          "complete_pairs": 8,
+          "nonzero_pairs": 8,
+          "decreased_pairs": 8,
+          "increased_pairs": 0,
+          "median_log10_ratio": -0.2660433735335807,
+          "observed_change": "decreased",
+          "goal_alignment": "supportive",
+          "w": 0,
+          "p": 0.0078125,
+          "q": 0.03125,
+          "assessment": "confirmed_supportive"
+        },
+        {
+          "preparation": "FDR moderate",
+          "complete_pairs": 6,
+          "nonzero_pairs": 6,
+          "decreased_pairs": 6,
+          "increased_pairs": 0,
+          "median_log10_ratio": -0.19609383989147317,
+          "observed_change": "decreased",
+          "goal_alignment": "supportive",
+          "w": 0,
+          "p": 0.03125,
+          "q": 0.0625,
+          "assessment": "supportive_signal"
+        },
+        {
+          "preparation": "FDR weak",
+          "complete_pairs": 4,
+          "nonzero_pairs": 4,
+          "decreased_pairs": 4,
+          "increased_pairs": 0,
+          "median_log10_ratio": -0.1353274723198963,
+          "observed_change": "decreased",
+          "goal_alignment": "supportive",
+          "w": 0,
+          "p": 0.125,
+          "q": 0.16666666666666666,
+          "assessment": "supportive_signal"
+        },
+        {
+          "preparation": "FDR mixed",
+          "complete_pairs": 6,
+          "nonzero_pairs": 6,
+          "decreased_pairs": 3,
+          "increased_pairs": 3,
+          "median_log10_ratio": -0.05,
+          "observed_change": "decreased",
+          "goal_alignment": "supportive",
+          "display_alignment": "uncertain",
+          "w": 10,
+          "p": 1,
+          "q": 1,
+          "assessment": "supportive_signal",
+          "display_assessment": "mixed direction — no consistent signal"
+        }
+      ]
+    }
+  ]
+}

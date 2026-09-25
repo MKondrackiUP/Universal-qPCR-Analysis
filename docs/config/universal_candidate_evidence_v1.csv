@@ -1,0 +1,7 @@
+source_preparation,evidence_category,defined_compound_score,context_specific_evidence_score,mechanistic_fit_score,transcriptomic_readiness_score,safety_risk_score,mechanistic_fit_label,safety_risk_label,transcriptomic_readiness_label
+Atlas,synthetic example,2,2,1,2,0,supportive,low,direct
+Borealis,synthetic example,2,2,0,2,2,neutral,moderate,direct
+Cygnus,synthetic example,2,2,-1,2,1,opposing,low,direct
+Draco,synthetic example,0,0,0,1,1,unknown,unknown,limited
+Equinox,synthetic example,2,2,1,2,0,supportive,low,direct
+Fenix,synthetic example,1,1,0,1,2,unknown,moderate,limited

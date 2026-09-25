@@ -1,0 +1,3 @@
+source_preparation,evidence_category,defined_compound_score,context_specific_evidence_score,mechanistic_fit_score,transcriptomic_readiness_score,safety_risk_score,mechanistic_fit_label,safety_risk_label,transcriptomic_readiness_label,canonical_name,drug_class
+Preparation A,defined research preparation,2,0,0,1,1,mechanism not yet established,moderate research risk,possible profile matching,Preparation A,custom
+Preparation B,undefined research preparation,0,0,0,0,0,unknown,unknown,not ready,Preparation B,custom

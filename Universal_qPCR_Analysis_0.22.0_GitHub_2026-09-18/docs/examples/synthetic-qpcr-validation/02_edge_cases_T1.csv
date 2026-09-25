@@ -1,0 +1,15 @@
+Preparation,Sample ID,Target,Task,Cq,Quantity,Sex,Well,Cq SD
+No change,S01,Synthetic validation target,Unknown,22,100,F,A1,0.1
+No change,S02,Synthetic validation target,Unknown,22.17,200,M,A2,0.1
+No change,S03,Synthetic validation target,Unknown,22.34,300,F,A3,0.1
+No change,S04,Synthetic validation target,Unknown,22.51,400,M,A4,0.1
+No change,S05,Synthetic validation target,Unknown,22.68,500,F,A5,0.1
+No change,S06,Synthetic validation target,Unknown,22.85,600,M,A6,0.1
+Balanced mixed,S01,Synthetic validation target,Unknown,24.653046874,1271.871682384,F,A1,0.1
+Balanced mixed,S02,Synthetic validation target,Unknown,25.87326027,675.600946152,M,A2,0.1
+Balanced mixed,S03,Synthetic validation target,Unknown,24.313744141,2444.077893711,F,A3,0.1
+Balanced mixed,S04,Synthetic validation target,Unknown,26.92520122,487.444680247,M,A4,0.1
+Balanced mixed,S05,Synthetic validation target,Unknown,27.456911976,408.530260724,F,A5,0.1
+Balanced mixed,S06,Synthetic validation target,Unknown,23.821275002,6120.661143579,M,A6,0.1
+Insufficient pairs,S01,Synthetic validation target,Unknown,29,400,F,A1,0.1
+Insufficient pairs,S02,Synthetic validation target,Unknown,29.17,450,M,A2,0.1

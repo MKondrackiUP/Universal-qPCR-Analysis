@@ -1,0 +1,52 @@
+Universal qPCR Analysis Free Use and Scientific Citation License 1.0
+
+Copyright (c) 2026 Marcin Kondracki and contributors
+
+1. Permission
+Permission is granted, free of charge, to any person obtaining a copy of this
+software and its accompanying documentation (the Software), to use, reproduce,
+modify, distribute, sublicense and sell copies of the Software, including for
+commercial purposes, subject to the conditions below. No licence fee is due.
+
+2. Preservation of notices
+Copies and substantial portions of the Software must retain this copyright
+notice, this licence and the citation condition. Modified distributions must
+identify their changes and must not present themselves as the original release.
+Redistribution or sublicensing must preserve the obligations in clauses 2 and 3.
+
+3. Scientific citation condition
+If the Software or a modified version is used in research and contributes to a
+publicly disseminated scholarly output, the authors of that output must state
+that Universal qPCR Analysis was used and cite its author, title and exact
+version. This applies to articles, preprints, theses, dissertations, conference
+papers, posters, scientific presentations and research reports, including use
+of calculations, analyses, figures, tables or reports produced by the Software.
+The citation must appear in the methods, references, acknowledgements or an
+equivalent attribution section. Use a version-specific DOI where one exists;
+otherwise use the software repository or archived release URL where available.
+Absence of a DOI does not prevent use: author, title, year and version suffice.
+For a modified version, also identify the modifications or derivative version.
+CITATION.cff and CITATION_POLICY.md provide metadata and examples; they do not
+waive this condition. Private research without a disseminated output does not
+require a separate notice to the Licensor. Non-research use requires no academic
+citation, but the notice-preservation condition continues to apply.
+
+4. Third-party material and previous grants
+This licence applies to material the copyright holders are entitled to license.
+Separately identified third-party material remains under its respective terms.
+This licence does not revoke rights already granted for earlier distributions,
+including copies previously supplied under Apache License 2.0.
+
+5. No endorsement
+Citation does not imply endorsement. No trademark rights are granted.
+
+6. Disclaimer
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. TO THE EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHORS AND
+COPYRIGHT HOLDERS SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM OR IN CONNECTION WITH THE
+SOFTWARE OR ITS USE.
+
+This is a custom licence, not Apache-2.0 and not represented as OSI-approved.
+The English text is authoritative.

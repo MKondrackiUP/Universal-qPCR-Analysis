@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Scientific use requires citation under LICENSE. Cite the exact version used."
+title: "Universal qPCR Analysis"
+type: software
+authors:
+  - family-names: "Kondracki"
+    given-names: "Marcin"
+    email: "mkondracki@deeptechlabs.pl"
+version: "0.22.0"
+date-released: "2026-09-01"
+# Custom licence: see LICENSE (served copy: docs/LICENSE.txt).
+# Add repository-code and a real DOI after creating the repository/archive.
+abstract: "Local-first paired qPCR/RT-qPCR analysis with optional Tier prioritization and DOCX reporting."
+keywords:
+  - qPCR
+  - RT-qPCR
+  - research software

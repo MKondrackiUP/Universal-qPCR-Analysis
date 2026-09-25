@@ -1,0 +1,13 @@
+Preparation,Sample ID,Target,Task,Cq,Quantity,Sex,Well,Cq SD
+Clear decrease,S01,Synthetic validation target,Unknown,23,100,F,A1,0.1
+Clear decrease,S02,Synthetic validation target,Unknown,23.17,200,M,A2,0.1
+Clear decrease,S03,Synthetic validation target,Unknown,23.34,300,F,A3,0.1
+Clear decrease,S04,Synthetic validation target,Unknown,23.51,400,M,A4,0.1
+Clear decrease,S05,Synthetic validation target,Unknown,23.68,500,F,A5,0.1
+Clear decrease,S06,Synthetic validation target,Unknown,23.85,600,M,A6,0.1
+Clear increase,S01,Synthetic validation target,Unknown,25,130,F,A1,0.1
+Clear increase,S02,Synthetic validation target,Unknown,25.17,230,M,A2,0.1
+Clear increase,S03,Synthetic validation target,Unknown,25.34,330,F,A3,0.1
+Clear increase,S04,Synthetic validation target,Unknown,25.51,430,M,A4,0.1
+Clear increase,S05,Synthetic validation target,Unknown,25.68,530,F,A5,0.1
+Clear increase,S06,Synthetic validation target,Unknown,25.85,630,M,A6,0.1

@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+node_modules/
+.env
+private-data/
+uploads/
+*.xlsx
+*.xls
+*.qpcrproj
+!docs/examples/synthetic-qpcr-validation/*.xlsx
+!docs/examples/synthetic-example-project.qpcrproj

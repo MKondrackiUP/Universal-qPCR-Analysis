@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest a general-purpose qPCR workflow improvement.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Scientific or usability problem
+      description: Explain the workflow need independently of a single assay or disease.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Suggested validation
+      description: Describe synthetic or public data that could verify the change.

@@ -1,0 +1,45 @@
+name: Bug report
+description: Report a reproducible application or calculation problem.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not attach confidential or identifiable research data. Prefer a minimal synthetic example.
+  - type: input
+    id: version
+    attributes:
+      label: Application version
+      placeholder: 0.21.0
+    validations:
+      required: true
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment
+      options:
+        - GitHub Pages/static hosting
+        - Node.js server
+        - Docker/Nginx
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Describe the smallest synthetic input and the exact steps that reproduce the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and observed result
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Browser and operating system
+    validations:
+      required: true
